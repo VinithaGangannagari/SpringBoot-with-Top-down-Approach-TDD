@@ -20,4 +20,9 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// https://mvnrepository.com/artifact/io.franzbecker/gradle-lombok
+/*
+	compile group: 'io.franzbecker', name: 'gradle-lombok', version: '2.1'
+*/
+
 }

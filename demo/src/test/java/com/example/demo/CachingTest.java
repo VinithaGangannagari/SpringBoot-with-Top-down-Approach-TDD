@@ -36,7 +36,7 @@ public class CachingTest {
 
     @Test
 public void caching() throws Exception{
-    given(carRepository.findByName(anyString())).willReturn(new Car("pirus","hybrid"));
+    given(carRepository.findByName(anyString())).willReturn(new Car("pirus","hybrid","new car"));
     carService.getCarDetails("pirus");
     carService.getCarDetails("pirus");
 

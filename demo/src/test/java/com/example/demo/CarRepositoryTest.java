@@ -21,12 +21,18 @@ public class CarRepositoryTest {
 
     @Test
     public void getCar_returnsCarDetails() throws Exception{
-        Car savedCar = testEntityManager.persistAndFlush(new Car("pirus","hybrid"));
+        Car savedCar = testEntityManager.persistAndFlush(new Car("pirus","hybrid","new car"));
 
        Car car = carRepository.findByName("pirus");
 
        // Assertions.assertThat(car.getName()).isEqualTo("pirus");
         Assertions.assertThat(car.getName()).isEqualTo(savedCar.getName());
         Assertions.assertThat(car.getType()).isEqualTo(savedCar.getType());
+    }
+
+    @Test
+    public void postCarDetails(){
+        testEntityManager.persistAndFlush(new Car("pirus","hybrid","new car"));
+
     }
 }
