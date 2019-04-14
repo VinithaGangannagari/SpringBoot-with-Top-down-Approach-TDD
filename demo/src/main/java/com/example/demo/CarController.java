@@ -4,9 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CarController {
@@ -32,7 +39,7 @@ public class CarController {
     }
 
     @PostMapping("/cars")
-    public Car postCarDetails(@RequestBody Car car){
+    public Car postCarDetails(@Valid @RequestBody Car car){
        /* System.out.println(carService.isCarExists(car));
         if(carService.isCarExists(car)) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -48,13 +55,29 @@ public class CarController {
         return carService.updateCarDetails(car);
     }
 
-    @DeleteMapping("/cars/{name}")
-    public Car deleteCars(@PathVariable String name){
-        return carService.deleteCarDetails(name);
+    @DeleteMapping("/cars/{id}")
+    public Car deleteCars(@PathVariable String id){
+        return carService.deleteCarDetails(id);
     }
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    private void carNotFoundHandler(CarNotFoundException ex){
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    private String handleValidationExceptions(HttpMessageNotReadableException ex){
+//        final String bodyOfResponse = ex.getMessage();
+//        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+//        return ex.getBindingResult()
+//                .getAllErrors().stream()
+//                .map(ObjectError::getDefaultMessage)
+//                .collect(Collectors.toList());
+        return "Hi please select body";
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public List<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ex.getBindingResult()
+                .getAllErrors().stream()
+                .map(ObjectError::getDefaultMessage)
+                .collect(Collectors.toList());
     }
 }

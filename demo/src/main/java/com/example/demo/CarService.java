@@ -17,7 +17,7 @@ public class CarService {
     public Car getCarDetails(String name){
         Car car = carRepository.findByName(name);
         if(car == null){
-            throw new CarNotFoundException();
+            throw new CarNotFoundException("Car is not found");
         }
         return car;
     }
@@ -28,11 +28,11 @@ public class CarService {
     }
 
     public Car saveCarDetails(Car car){
-       //carRepository.save(car);
+       carRepository.save(car);
 
-            if(1==1) {
-                throw new CarNotFoundException();
-            }
+//            if(1==1) {
+//                throw new CarNotFoundException("Car is not found");
+//            }
         return car;
     }
 

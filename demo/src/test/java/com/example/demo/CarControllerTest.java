@@ -55,7 +55,7 @@ public class CarControllerTest {
 
     @Test
     public void getCar_notFound() throws Exception{
-        given(carService.getCarDetails(anyString())).willThrow(new CarNotFoundException());
+        given(carService.getCarDetails(anyString())).willThrow(new CarNotFoundException("Car is not found"));
         mockMvc.perform(MockMvcRequestBuilders.get("/cars/pir"))
                 .andExpect(status().isNotFound());
     }
@@ -73,7 +73,7 @@ public class CarControllerTest {
 
     @Test
     public void getCarByType_notFound() throws Exception{
-        given(carService.getCarDetailsByType(anyString())).willThrow(new CarNotFoundException());
+        given(carService.getCarDetailsByType(anyString())).willThrow(new CarNotFoundException("Car is not found"));
         mockMvc.perform(MockMvcRequestBuilders.get("/cars/hybrid"))
                 .andExpect(status().isNotFound());
     }
@@ -95,7 +95,7 @@ public class CarControllerTest {
     public void postCar_ShouldReturnConflict() throws Exception{
         Car car = new Car("pirus","hybrid","new Car");
         String json = objectMapper.writeValueAsString(car);
-        given(carService.saveCarDetails(car)).willThrow(new CarNotFoundException());
+        given(carService.saveCarDetails(car)).willThrow(new CarNotFoundException("Car is already found"));
         mockMvc.perform(MockMvcRequestBuilders.post("/cars")
                                                 .contentType(MediaType.APPLICATION_JSON)
                                                .content(json)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -14,6 +15,7 @@ public class Car {
     private Long id;
 
     private String description;
+    @NotNull(message = "{Car.name.blank}")
     private String name;
     private String type;
 
